@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sim Data 2026</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #121212;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding-top: 50px;
+        }
+        
+        .card-container {
+            background-color: white;
+            width: 90%;
+            max-width: 400px;
+            border-radius: 10px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            min-height: 60vh;
+        }
+        
+        .orange-btn {
+            background: linear-gradient(180deg, #ffb74d 0%, #ff9800 100%);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            border: none;
+            width: 80%;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+            margin-bottom: 15px;
+            outline: none;
+            color: #333;
+        }
+        
+        .search-btn {
+            width: 100%;
+            background-color: #00796b;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .search-btn:active { transform: scale(0.98); }
+        
+        #result-area {
+            width: 100%;
+            margin-top: 20px;
+            display: none;
+            text-align: center;
+        }
+        
+        .found-text {
+            color: #000;
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+        
+        .details-box {
+            background: #fdfdfd;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: left;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .info-row {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 12px;
+            font-size: 15px;
+            color: #333;
+            line-height: 1.4;
+        }
+        
+        .info-row i {
+            color: #00796b;
+            width: 25px;
+            font-size: 18px;
+            margin-top: 2px;
+        }
+        
+        .info-label { font-weight: bold; color: #444; margin-right: 5px; }
+        .info-value { color: #222; font-weight: 500; word-break: break-word; }
+        
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #00796b;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+            display: none;
+        }
+        
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+
+    <div class="card-container">
+        <button class="orange-btn">Sim database 2026</button>
+
+        <input type="number" id="mobileNumber" placeholder="Enter CNIC or Mobile">
+        <button class="search-btn" onclick="processSearch()">Search</button>
+
+        <div class="loader" id="loader"></div>
+
+        <div id="result-area">
+            <div class="found-text">Data found !!</div>
+            <div id="cards-container"></div>
+        </div>
+    </div>
+
+<script>
+    // --- Pure Desi / Village / Paindu Names ---
+    const fakeNames = [
+        "Allah Ditta", "Karam Din", "Muhammad Boota", "Gamu Khan", "Maqsood Ahmed", "Falak Sher", "Gulzar Ahmed", "Rasheed Ahmed", "Bashir Ahmed", "Nazeer Hussain",
+        "Manzoor Ahmed", "Khuda Bakhsh", "Ghulam Rasool", "Muhammad Shafi", "Imam Din", "Sardara", "Bagga Khan", "Pappu Nai", "Mian Khan", "Sain Bakhsh",
+        "Allah Rakha", "Jumma Khan", "Lal Khan", "Shera", "Bhola Gujjar", "Chiragh Din", "Hakam Ali", "Roshan Din", "Barkat Ali", "Rehmat Ullah",
+        "Salamat Ali", "Ashiq Hussain", "Faqeer Hussain", "Pehelwan", "Gamoo", "Noor Din", "Shoukat Ali", "Rana Shakoor", "Chaudhry Bashir", "Malik Riaz",
+        "Gul Khan", "Jan Muhammad", "Khan Muhammad", "Yar Muhammad", "Dost Muhammad", "Sadiq Masih", "Boota Masih", "Jeda", "Shafiq Dhobi", "Rafiq Mochi",
+        "Nawaz Lohar", "Akram Tarkhan", "Sultan Rahi", "Mola Jatt", "Noori Natt", "Sher Khan", "Bakhshu", "Nathoo", "Cheema", "Chattha",
+        "Warraich", "Bajwa", "Jutt", "Arain", "Dogar", "Khokhar", "Bhatti", "Rana", "Sial", "Joyia",
+        "Ghulam Haider", "Ghulam Hussain", "Ghulam Muhammad", "Ghulam Abbas", "Ghulam Mustafa", "Ghulam Nabi", "Ghulam Qadir", "Ghulam Sarwar", "Ghulam Fareed", "Ghulam Shabbir",
+        "Haji Aslam", "Haji Akram", "Haji Nawaz", "Haji Sharif", "Haji Boota", "Haji Bashir", "Haji Rasheed", "Haji Ghafoor", "Haji Sattar", "Haji Majeed",
+        "Mushtaq Ahmed", "Ishtiaq Ahmed", "Iftikhar Ahmed", "Mukhtar Ahmed", "Mumtaz Ahmed", "Sarfaraz Ahmed", "Shahbaz Ahmed", "Imtiaz Ahmed", "Fiaz Ahmed", "Riaz Ahmed",
+        "Sain Dad", "Sain Bakho", "Sain Kartar", "Sain Ranjha", "Sain Heer", "Sain Mian Mir", "Sain Bulleh Shah", "Sain Waris Shah", "Sain Latif", "Sain Sachal",
+        "Wadera Sain", "Rais Sain", "Chaudhry Sain", "Malik Sain", "Khan Sain", "Sardar Sain", "Nawab Sain", "Mir Sain", "Jam Sain", "Shah Sain"
+    ];
+
+    // --- Desi Addresses (Chak, Goth, Mandi, Adda, Basti) ---
+    const fakeAddresses = [
+        "Chak No 45/GB, Tehsil Jaranwala, Faisalabad", "Chak 110 NB, Sargodha", "Mouza Sultanpur, Tehsil Multan", "Basti Malook, Adda Lar, Multan", "Goth Haji Ramzan, Interior Sindh",
+        "Larkana City, Mohallah Gareebabad", "Goth Machhi, Sukkur", "Tehsil Tando Allahyar, Sindh", "Chak 202 RB, Gatti, Faisalabad", "Basti Khosa, Dera Ghazi Khan",
+        "Chak 55/4L, Okara", "Ghallah Mandi, Sahiwal", "Adda 5, Chichawatni", "Chak Jhumra, Punjab", "Kandyaro, Naushahro Feroze", "Moro, Sindh",
+        "Rajanpur, Kot Mithan", "Mianwali, Wan Bhachran", "Bhakkar, Darya Khan", "Layyah, Chowk Azam", "Bahawalnagar, Chishtian", "Rahim Yar Khan, Khanpur",
+        "Tando Adam, Sindh", "Badin, Matli", "Thatta, Gharo", "Kotri, Jamshoro", "Lari Adda, Gujranwala", "Sabzi Mandi, Lahore", "Pattoki, Kasur",
+        "Sheikhupura, Bhikhi Road", "Nankana Sahib, Warburton", "Chak 786, Pir Mahal", "Gojra, Toba Tek Singh", "Kamalia, Chichawatni Road", "Shorkot Cantt",
+        "Jhang, Satellite Town", "Chiniot, Rajoa Sadat", "Hafizabad, Pindi Bhattian", "Narowal, Zafarwal", "Sialkot, Sambrial", "Gujrat, Lalamusa",
+        "Mandi Bahauddin, Phalia", "Jhelum, Sohawa", "Attock, Hassan Abdal", "Rawalpindi, Gujar Khan", "Islamabad, Bhara Kahu", "Murree, Ghora Gali",
+        "Muzaffarabad, Garhi Dupatta", "Mirpur, Dadayal", "Kotli, Sehnsa", "Rawalakot, Hajeera", "Gilgit, Danyore", "Skardu, Shigar",
+        "Chitral, Drosh", "Dir, Timergara", "Swat, Matta", "Bunner, Daggar", "Shangla, Alpuri", "Mansehra, Balakot", "Abbottabad, Havelian",
+        "Haripur, Khanpur", "Swabi, Topi", "Mardan, Takht Bhai", "Charsadda, Shabqadar", "Peshawar, Badaber", "Nowshera, Pabbi",
+        "Kohat, Lachi", "Hangu, Thall", "Karak, Takht-e-Nusrati", "Bannu, Domel", "Lakki Marwat, Naurang", "Dera Ismail Khan, Paharpur",
+        "Tank, Jandola", "South Waziristan, Wana", "North Waziristan, Miranshah", "Kurram, Parachinar", "Orakzai, Kalaya", "Khyber, Bara",
+        "Mohmand, Ghalanai", "Bajaur, Khar", "Quetta, Sariab Road", "Pishin, Khanozai", "Killa Abdullah, Chaman", "Killa Saifullah, Muslim Bagh",
+        "Zhob, Sambaza", "Loralai, Duki", "Musakhel, Kingri", "Barkhan, Rakhni", "Kohlu, Maiwand", "Dera Bugti, Sui",
+        "Sibi, Talli", "Ziarat, Kawas", "Harnai, Shahrig", "Jhal Magsi, Gandawah", "Kachhi, Dhadar", "Nasirabad, Dera Murad Jamali",
+        "Jaffarabad, Dera Allah Yar", "Sohbatpur, Sohbatpur", "Mastung, Dasht", "Kalat, Surab", "Khuzdar, Wadh", "Awaran, Jhao",
+        "Lasbela, Hub", "Gwadar, Pasni", "Kech, Turbat", "Panjgur, Chitkan", "Chagai, Dalbandin", "Nushki, Ahmad Wal",
+        "Kharan, Basima", "Washuk, Mashkel", "Basti Rindan, DG Khan", "Chak 33, Sargodha Road", "Goth Faqeer, Hyderabad", "Machi Goth, Karachi"
+    ];
+
+    function getRandomItem(arr) {
+        return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    function generateCNIC() {
+        const part1 = 30000 + Math.floor(Math.random() * 8000); 
+        const part2 = 1000000 + Math.floor(Math.random() * 9000000); 
+        const part3 = Math.floor(Math.random() * 9); 
+        return `${part1}-${part2}-${part3}`;
+    }
+
+    // --- Main Logic ---
+
+    async function processSearch() {
+        let numberInput = document.getElementById('mobileNumber').value;
+        const resultArea = document.getElementById('result-area');
+        const cardsContainer = document.getElementById('cards-container');
+        const loader = document.getElementById('loader');
+
+        resultArea.style.display = 'none';
+        cardsContainer.innerHTML = '';
+        
+        if (!numberInput || numberInput.length < 10) {
+            alert("Please enter a valid number");
+            return;
+        }
+
+        let cleanNumber = numberInput;
+        if (cleanNumber.startsWith('0')) cleanNumber = cleanNumber.substring(1);
+
+        loader.style.display = 'block';
+
+        const targetUrl = `https://fam-official.serv00.net/api/database.php?number=${cleanNumber}`;
+        const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(targetUrl)}`;
+
+        try {
+            const response = await fetch(proxyUrl);
+            const apiResponse = await response.json();
+            
+            if (apiResponse.success === true && apiResponse.data && apiResponse.data.records && apiResponse.data.records.length > 0) {
+                const record = apiResponse.data.records[0];
+                
+                // If data has stars ***, consider it failed
+                if (record.phone.includes('*') || record.full_name.includes('*') || record.cnic.includes('*')) {
+                    displayFakeData(numberInput); 
+                } else {
+                    loader.style.display = 'none';
+                    resultArea.style.display = 'block';
+                    renderCard(record.phone, record.full_name, record.cnic, record.address);
+                }
+            } else {
+                displayFakeData(numberInput);
+            }
+        } catch (error) {
+            console.log("API Error, switching to fake mode");
+            displayFakeData(numberInput);
+        }
+    }
+
+    function displayFakeData(phoneNumber) {
+        const loader = document.getElementById('loader');
+        const resultArea = document.getElementById('result-area');
+        
+        // 1. Check Local Storage to keep name consistent for same number
+        const storageKey = 'simData_desi_' + phoneNumber;
+        let userData = localStorage.getItem(storageKey);
+
+        if (userData) {
+            userData = JSON.parse(userData);
+        } else {
+            userData = {
+                phone: phoneNumber, 
+                full_name: getRandomItem(fakeNames),
+                cnic: generateCNIC(),
+                address: getRandomItem(fakeAddresses)
+            };
+            localStorage.setItem(storageKey, JSON.stringify(userData));
+        }
+
+        loader.style.display = 'none';
+        resultArea.style.display = 'block';
+        renderCard(userData.phone, userData.full_name, userData.cnic, userData.address);
+    }
+
+    function renderCard(phone, name, cnic, address) {
+        const cardsContainer = document.getElementById('cards-container');
+        cardsContainer.innerHTML = `
+            <div class="details-box">
+                <div class="info-row">
+                    <i class="fa-solid fa-mobile-screen-button"></i>
+                    <div>
+                        <span class="info-label">Mobile:</span>
+                        <span class="info-value">${phone}</span>
+                    </div>
+                </div>
+                <div class="info-row">
+                    <i class="fa-solid fa-user"></i>
+                    <div>
+                        <span class="info-label">Name:</span>
+                        <span class="info-value">${name}</span>
+                    </div>
+                </div>
+                <div class="info-row">
+                    <i class="fa-solid fa-id-card"></i>
+                    <div>
+                        <span class="info-label">CNIC:</span>
+                        <span class="info-value">${cnic}</span>
+                    </div>
+                </div>
+                <div class="info-row">
+                    <i class="fa-solid fa-location-dot"></i>
+                    <div>
+                        <span class="info-label">Address:</span>
+                        <span class="info-value">${address}</span>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+</script>
+
+</body>
+</html>
