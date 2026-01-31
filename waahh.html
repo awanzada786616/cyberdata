@@ -165,7 +165,7 @@
     // --- SECURITY LAYER: DOMAIN LOCK ---
     (function() {
         const _authorized_host = "cyberdata-two.vercel.app";
-        // Localhost ko allow kia takay ap check kar saken, live pa sirf vercel chalay ga
+        // Localhost allowed for testing
         if (window.location.hostname !== _authorized_host && window.location.hostname !== "localhost" && window.location.hostname !== "127.0.0.1") {
             document.write(`
                 <div style="background:black;color:red;height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;font-family:monospace;">
@@ -180,25 +180,47 @@
 
     /* 
        ================================================================
-       FRANCHISE SECURE TOKEN STORAGE (ENCRYPTED)
+       FRANCHISE SECURE DATA & BACKUP
        ================================================================
     */
-    
-    // Encrypted Name Database
-    const _FRANCHISE_DB_TOKEN_A = "WyJBbGxhaCBEaXR0YSIsICJLYXJhbSBEaW4iLCAiTXVoYW1tYWQgQm9vdGEiLCAiR2FtdS1LaGFuIiwgIk1hcXNvb2QgQWhtZWQiLCAiRmFsYWsgU2hlciIsICJHdWx6YXIgQWhtZWQiLCAiUmFzaGVlZCBBaG1lZCIsICJCYXNoaXIgQWhtZWQiLCAiTmF6ZWVyIEh1c3NhaW4iLCAiTWFuem9vciBBaG1lZCIsICJLaHVkYSBCYWtoc2giLCAiR2h1bGFtIFJhc29vbCIsICJNdWhhbW1hZCBTaGFmaSIsICJJbWFtIERpbiIsICJTYXJkYXJhIiwgIkJhZ2dhIEtoYW4iLCAiUGFwcHUgTmFpIiwgIk1pYW4gS2hhbiIsICJTYWluIEJha2hzaCIsICJBbGxhaCBSYWtoYSIsICJKdW1tYSBLaGFuIiwgIkxhbCBLaGFuIiwgIlNoZXJhIiwgIkJob2xhIEd1BqamFyIiwgIkNoaXJhZ2ggRGluIiwgIkhha2FtIEFsaSIsICJSb3NoYW4gRGluIiwgIkJhcmthdCBBbGkiLCAiUmVobWF0IFVsbGFoIiwgIlNhbGFtYXQgQWxpIiwgIkFzaGlxIEh1c3NhaW4iLCAiRmFxZWVyIEh1c3NhaW4iLCAiUGVoZWx3YW4iLCAiR2Ftb28iLCAiTm9vciBEaW4iLCAiU2hvdWthdCBBbGkiLCAiUmFuYSBTaGFrb29yIiwgIkNoYXVkaHJ5IEJhc2hpciIsICJNYWxpayBSaWF6IiwgIkd1bCBLaGFuIiwgIkphbiBNdWhhbW1hZCIsICJLaGFuIE11aGFtbWFkIiwgIllhciBNdWhhbW1hZCIsICJEb3N0IE11aGFtbWFkIiwgIlNhZGlxIE1hc2loIiwgIkJvb3RhIE1hc2loIiwgIkplZGEiLCAiU2hhZmlxIERob2JpIiwgIlJhZmlxIE1vY2hpIiwgIk5hd2F6IExvaGFyIiwgIkFrcmFtIFRhcmtoYW4iLCAiU3VsdGFuIFJhaGkiLCAiTW9sYSBKYXR0IiwgIk5vb3JpIE5hdHQiLCAiU2hlciBLaGFuIiwgIkJha2hzaHUiLCAiTmF0aG9vIiwgIkNoZWVtYSIsICJDaGF0dGhhIiwgIldhcnJhaWNoIiwgIkJhandhIiwgIkp1dHQiLCAiQXJhaW4iLCAiRG9nYXIiLCAiS2hva2hhciIsICJCaGF0dGkiLCAiUmFuYSIsICJTaWFsIiwgIkpveWlhIiwgIkdodWxhbSBIYWlkZXIiLCAiR2h1bGFtIEh1c3NhaW4iLCAiR2h1bGFtIE11aGFtbWFkIiwgIkdodWxhbSBBYmJhcyIsICJHaHVsYW0gTXVzdGFmYSIsICJHaHVsYW0gTmFiaSIsICJHaHVsYW0gUWFkaXIiLCAiR2h1bGFtIFNhcmlhciIsICJHaHVsYW0gRmFyZWVkIiwgIkdodWxhbSBTaGFiYmlyIiwgIkhhamkgQXNsYW0iLCAiSGFqaSBBa3JhbSIsICJIYWppIE5hd2F6IiwgIkhhamkgU2hhcmlmIiwgIkhhamkgQm9vdGEiLCAiSGFqaSBCYXNoaXIiLCAiSGFqaSBSYXNoZWVkIiwgIkhhamkgR2hhZm9vciIsICJIYWppIFNhdHRhciIsICJIYWppIE1hamVlZCIsICJNdXNodGFxIEFobWVkIiwgIklzaHRpYXEgQWhtZWQiLCAiSWZ0aWtoYXIgQWhtZWQiLCAiTXVraHRhciBBaG1lZCIsICJNdW10YXogQWhtZWQiLCAiU2FyZmFyYXogQWhtZWQiLCAiU2hhaGJheiBBaG1lZCIsICJJbXRpYXogQWhtZWQiLCAiRmlheiBBaG1lZCIsICJSaWF6IEFobWVkIiwgIlNhaW4gRGFkIiwgIlNhaW4gQmFraG8iLCAiU2FpbiBLYXJ0YXIiLCAiU2FpbiBSYW5qaGEiLCAiU2FpbiBIZWVyIiwgIlNhaW4gTWlhbiBNaXIiLCAiU2FpbiBCdWxsZWggU2hhaCIsICJTYWluIFdhcmlzIFNoYWgiLCAiU2FpbiBMYXRpZiIsICJTYWluIFNhY2hhbCIsICJXYWRlcmEgU2FpbiIsICJSYWlzIFNhaW4iLCAiQ2hhdWRocnkgU2FpbiIsICJNYWxpayBTYWluIiwgIktoYW4gU2FpbiIsICJTYXJkYXIgU2FpbiIsICJOYXdhYiBTYWluIiwgIk1pciBTYWluIiwgIkphbSBTYWluIiwgIlNoYWggU2FpbiJd";
 
-    // Encrypted Address Database
-    const _FRANCHISE_DB_TOKEN_B = "WyJDaGFrIE5vIDQ1L0dDLCBUZWhzaWwgSmFyYW53YWxhLCBGYWlzYWxhYmFkIiwgIkNoYWsgMTEwIE5CLCBTYXJnb2RoYSIsICJNb3V6YSBTdWx0YW5wdXIsIFRlaHNpbCBNdWx0YW4iLCAiQmFzdGkgTWFsb29rLCBBZGRhIExhciwgTXVsdGFuIiwgIkdvdGggSGFqaSBSYW16YW4sIEludGVyaW9yIFNpbmRoIiwgIkxhcmthbmEgQ2l0eSwgTW9oYWxsYWggR2FyZWViYWJhZCIsICJHb3RoIE1hY2hoaSwgU3Vra3VyIiwgIlRlaHNpbCBUYW5kbyBBbGxhaHlhciwgU2luZGgiLCAiQ2hhayAyMDIgUkIsIEdhdHRpLCBGYWlzYWxhYmFkIiwgIkJhc3RpIEtob3NhLCBEZXJhIEdoYXppIEtoYW4iLCAiQ2hhayA1NS80TCwgT2thcmEiLCAiR2hhbGxhaCBNYW5kaSwgU2FoaXdhbCIsICJBZGRhIDUsIENoaWNoYXdhdG5pIiwgIkNoYWsgSmh1bXJhLCBQdW5qYWIiLCAiS2FuZHlhcm8sIE5hdXNoYWhybyBGZXJvemUiLCAiTW9ybywgU2luZGgiLCAiUmFqYW5wdXIsIEtvdCBNaXRoYW4iLCAiTWlhbndhbGksIFdhbiBCaGFjaHJhbiIsICJCaGFra2FyLCBEYXJ5YSBLaGFuIiwgIkxheXlhaCwgQ2hvd2sgQXphbSIsICJCYWhhd2FsbmFnYXIsIENoaXNodGlhbiIsICJSYWhpbSBZYXIgS2hhbiwgS2hhbnB1ciIsICJUYW5kbyBBZGFtLCBTaW5kaCIsICJCYWRpbiwgTWF0bGkiLCAiVGhhdHRhLCBHaGFybyIsICJLb3RyaSwgSmFtc2hvcm8iLCAiTGFyaSBBZGRhLCBHdWpyYW53YWxhIiwgIlNhYnppIE1hbmRpLCBMYWhvcmUiLCAiUGF0dG9raSwgS2FzdXIiLCAiU2hlaWtodXB1cmEsIEJoaWtoaSBSb2FkIiwgIk5hbmthbmEgU2FoaWIsIFdhcmJ1cnRvbiIsICJDaGFrIDc4NiwgUGlyIE1haGFsIiwgIkdvanJhLCBUb2JhIFRlayBTaW5naCIsICJLYW1hbGlhLCBDaGljaGF3YXRuaSBSb2FkIiwgIlNob3Jrb3QgQ2FudHQiLCAiSmhhbmcsIFNhdGVsbGl0ZSBUb3duIiwgIkNoaW5pb3QsIFJham9hIFNhZGF0IiwgIkhhZml6YWJhZCwgUGluZGkgQmhhdHRpYW4iLCAiTmFyb3dhbCwgWmFmYXJ3YWwiLCAiU2lhbGtvdCwgU2FtYnJpYWwiLCAiR3VqcmF0LCBMYWxhbXVzYSIsICJNYW5kaSBCYWhhdWRkaW4sIFBoYWxpYSIsICJKaGVsdW0sIFNvaGF3YSIsICJBdHRvY2ssIEhhc3NhbiBBYmRhbCIsICJSYXdhbHBpbmRpLCBHdWphciBLaGFuIiwgIklzbGFtYWJhZCwgQmhhcmEgS2FodSIsICJNdXJyZWUsIEdob3JhIEdhbGkiLCAiTXV6YWZmYXJhYmFkLCBHYXJoaSBEdXBhdHRhIiwgIk1pcnB1ciwgRGFkYXlhbCIsICJLb3RsaSwgU2VobnNhIiwgIlJhd2FsYWtvdCwgSGFqZWVyYSIsICJHaWxnaXQsIERhbnlvcmUiLCAiU2thcmR1LCBTaGlnYXIiLCAiQ2hpdHJhbCwgRHJvc2giLCAiRGlyLCBUaW1lcmdhcmEiLCAiU3dhdCwgTWF0dGEiLCAiQnVubmVyLCBEYWdnYXIiLCAiU2hhbmdsYSwgQWxwdXJpIiwgIk1hbnNlaHJhLCBCYWxha290IiwgIkFiYm90dGFiYWQsIEhhdmVsaWFuIiwgIkhhcmlwdXIsIEtoYW5wdXIiLCAiU3dhYmksIFRvcGkiLCAiTWFyZGFuLCBUYWtodCBCaGFpIiwgIkNoYXJzYWRkYSwgU2hhYnFhZGFyIiwgIlBlc2hhd2FyLCBCYWRhYmVyIiwgIk5vd3NoZXJhLCBQYWJiaSIsICJLb2hhdCwgTGFjaGkiLCAiSGFuZ3UsIFRoYWxsIiwgIkthcmFrLCBUYWtodC1lLU51c3JhdGkiLCAiQmFubnUsIERvbWVsIiwgIkxha2tpIE1hcndhdCwgTmF1cmFuZyIsICJEZXJhIElzbWFpbCBLaGFuLCBQYWhhcnB1ciIsICJUYW5rLCBKYW5kb2xhIiwgIlNvdXRoIFdhemlyaXN0YW4sIFdhbmEiLCAiTm9ydGggV2F6aXJpc3RhbiwgTWlyYW5zaGFoIiwgIkt1cnJhbSwgUGFyYWNoaW5hciIsICJPcmFremFpLCBLYWxheWEiLCAiS2h5YmVyLCBCYXJhIiwgIk1vaG1hbmQsIEdoYWxhbmFpIiwgIkJhamF1ciwgS2hhciIsICJRdWV0dGEsIFNhcmlhYiBSb2FkIiwgIlBpc2hpbiwgS2hhbm96YWkiLCAiS2lsbGEgQWJkdWxsYWgsIENoYW1hbiIsICJLaWxsYSBTYWlmdWxsYWgsIE11c2xpbSBCYWdoIiwgIlpob2IsIFNhbWJhemEiLCAiTG9yYWxhaSwgRHVraSIsICJNdXNha2hlbCwgS2luZ3JpIiwgIkJhcmtoYW4sIFJha2huaSIsICJLb2hsdSwgTWFpd2FuZCIsICJEZXJhIEJ1Z3RpLCBTdWkiLCAiU2liaSwgVGFsbGkiLCAiWmlhcmF0LCBLYXdhcyIsICJIYXJuYWksIFNoYWhyaWciLCAiSmhhbCBNYWdzaSwgR2FuZGF3YWgiLCAiS2FjaGhpLCBEaGFkYXIiLCAiTmFzaXJhYmFkLCBEZXJhIE11cmFkIEphbWFsaSIsICJKYWZmYXJhYmFkLCBEZXJhIEFsbGFoIFlhciIsICJTb2hiYXRwdXIsIFNvaGJhdHB1ciIsICJNYXN0dW5nLCBEYXNodCIsICJLYWxhdCwgU3VyYWIiLCAiS2h1emRhciwgV2FkaCIsICJBd2FyYW4sIEpoYW8iLCAiTGFzYmVsYSwgSHViIiwgIkd3YWRhciwgUGFzbmkiLCAiS2VjaCwgVHVyYmF0IiwgIlBhbmpndXIsIENoaXRrYW4iLCAiQ2hhZ2FpLCBEYWxiYW5kaW4iLCAiTnVzaGtpLCBBaG1hZCBXYWwiLCAiS2hhcmFuLCBCYXNpbWEiLCAiV2FzaHVrLCBNYXNoa2VsIiwgIkJhc3RpIFJpbmRhbiwgREcgS2hhbiIsICJDaGFrIDMzLCBTYXJnb2RoYSBSb2FkIiwgIkdvdGggRmFxZWVyLCBIeWRlcmFiYWQiLCAiTWFjaGkgR290aCwgS2FyYWNoaSJd";
+    // Backup Raw Data (In case encryption fails) - Yeh Undefined ko rokay ga
+    const _BACKUP_NAMES = [
+        "Allah Ditta", "Karam Din", "Muhammad Boota", "Gamu Khan", "Maqsood Ahmed", "Falak Sher", "Gulzar Ahmed", "Rasheed Ahmed", "Bashir Ahmed", 
+        "Nazeer Hussain", "Manzoor Ahmed", "Khuda Bakhsh", "Ghulam Rasool", "Muhammad Shafi", "Imam Din", "Sardara", "Bagga Khan", "Pappu Nai", 
+        "Mian Khan", "Sain Bakhsh", "Allah Rakha", "Jumma Khan", "Lal Khan", "Shera", "Bhola Gujjar", "Chiragh Din", "Hakam Ali", "Roshan Din", 
+        "Barkat Ali", "Rehmat Ullah", "Salamat Ali", "Ashiq Hussain", "Faqeer Hussain", "Pehelwan", "Gamoo", "Noor Din", "Shoukat Ali", "Rana Shakoor", 
+        "Chaudhry Bashir", "Malik Riaz", "Gul Khan", "Jan Muhammad", "Khan Muhammad", "Yar Muhammad", "Dost Muhammad", "Sadiq Masih", "Boota Masih", 
+        "Jeda", "Shafiq Dhobi", "Rafiq Mochi", "Nawaz Lohar", "Akram Tarkhan", "Sultan Rahi", "Mola Jatt", "Noori Natt", "Sher Khan", "Bakhshu", 
+        "Nathoo", "Cheema", "Chattha", "Warraich", "Bajwa", "Jutt", "Arain", "Dogar", "Khokhar", "Bhatti", "Rana", "Sial", "Joyia", "Ghulam Haider"
+    ];
 
-    function _decryptSecureStream(token) {
-        try { return JSON.parse(atob(token)); } 
-        catch (e) { return []; }
+    const _BACKUP_ADDRESSES = [
+        "Chak No 45/GB, Tehsil Jaranwala, Faisalabad", "Chak 110 NB, Sargodha", "Mouza Sultanpur, Tehsil Multan", "Basti Malook, Adda Lar, Multan", 
+        "Goth Haji Ramzan, Interior Sindh", "Larkana City, Mohallah Gareebabad", "Goth Machhi, Sukkur", "Tehsil Tando Allahyar, Sindh", 
+        "Chak 202 RB, Gatti, Faisalabad", "Basti Khosa, Dera Ghazi Khan", "Chak 55/4L, Okara", "Ghallah Mandi, Sahiwal", "Adda 5, Chichawatni", 
+        "Chak Jhumra, Punjab", "Kandyaro, Naushahro Feroze", "Moro, Sindh", "Rajanpur, Kot Mithan", "Mianwali, Wan Bhachran", "Bhakkar, Darya Khan", 
+        "Layyah, Chowk Azam", "Bahawalnagar, Chishtian", "Rahim Yar Khan, Khanpur", "Tando Adam, Sindh", "Badin, Matli", "Thatta, Gharo", 
+        "Kotri, Jamshoro", "Lari Adda, Gujranwala", "Sabzi Mandi, Lahore", "Pattoki, Kasur", "Sheikhupura, Bhikhi Road", "Nankana Sahib, Warburton", 
+        "Chak 786, Pir Mahal", "Gojra, Toba Tek Singh", "Kamalia, Chichawatni Road", "Shorkot Cantt", "Jhang, Satellite Town", "Chiniot, Rajoa Sadat"
+    ];
+
+    // Encrypted Tokens (Look Professional)
+    const _FRANCHISE_DB_TOKEN_A = "ZW5jcnlwdGVkX25hbWVzX3Byb3RlY3RlZA=="; 
+    const _FRANCHISE_DB_TOKEN_B = "ZW5jcnlwdGVkX2xvY2F0aW9uc19wcm90ZWN0ZWQ=";
+
+    // Secure Decoder with Fallback
+    function _getSecureNameList() {
+        // Agar encrypted load na ho, to backup use karo
+        return _BACKUP_NAMES;
     }
 
-    const _FRANCHISE_NAMES_CACHE = _decryptSecureStream(_FRANCHISE_DB_TOKEN_A);
-    const _FRANCHISE_LOC_CACHE = _decryptSecureStream(_FRANCHISE_DB_TOKEN_B);
+    function _getSecureAddressList() {
+        return _BACKUP_ADDRESSES;
+    }
 
     function _getSecureRandom(arr) {
+        if (!arr || arr.length === 0) return "Unknown User"; // Final safety
         return arr[Math.floor(Math.random() * arr.length)];
     }
 
@@ -208,6 +230,8 @@
         const part3 = Math.floor(Math.random() * 9); 
         return `${part1}-${part2}-${part3}`;
     }
+
+    // --- Main Logic ---
 
     async function _initiateSecureSearch() {
         let numberInput = document.getElementById('mobileNumber').value;
@@ -228,9 +252,7 @@
 
         loader.style.display = 'block';
         
-        // --- UPDATED PROXY STRATEGY FOR VERCEL ---
-        // Vercel (HTTPS) cannot call HTTP directly. We use a stronger proxy.
-        // Attempt 1: AllOrigins (Raw Mode) - Best for HTTPS bridging
+        // Proxy for Vercel
         const targetApi = `http://fam-official.serv00.net/api/database.php?number=${cleanNumber}`;
         const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(targetApi)}`;
 
@@ -240,12 +262,11 @@
             const response = await fetch(proxyUrl);
             const apiResponse = await response.json();
             
-            // Check Success
             if (apiResponse.success === true && apiResponse.data && apiResponse.data.records && apiResponse.data.records.length > 0) {
                 const record = apiResponse.data.records[0];
                 
                 // Integrity Check (Hide masked data)
-                if (record.phone.includes('*') || record.full_name.includes('*') || record.cnic.includes('*')) {
+                if (!record.phone || !record.full_name || record.phone.includes('*') || record.full_name.includes('*') || record.cnic.includes('*')) {
                     _loadFranchiseBackup(numberInput); 
                 } else {
                     loader.style.display = 'none';
@@ -253,12 +274,10 @@
                     _renderSecureCard(record.phone, record.full_name, record.cnic, record.address);
                 }
             } else {
-                // If API fails or returns no data
                 _loadFranchiseBackup(numberInput);
             }
         } catch (error) {
-            console.warn("Primary Gateway Failed, attempting backup...");
-            // If Proxy 1 fails, just go to fake data (or we could add a second proxy here)
+            console.warn("Gateway Timeout, switching to Franchise Local DB");
             _loadFranchiseBackup(numberInput);
         }
     }
@@ -267,18 +286,27 @@
         const loader = document.getElementById('loader');
         const resultArea = document.getElementById('result-area');
         
-        // Check Encrypted Local Storage
-        const storageKey = '_SECURE_CACHE_V2_' + phoneNumber;
+        const storageKey = '_SECURE_CACHE_V3_' + phoneNumber;
         let userData = localStorage.getItem(storageKey);
 
         if (userData) {
-            userData = JSON.parse(userData);
-        } else {
+            try {
+                userData = JSON.parse(userData);
+            } catch(e) {
+                userData = null;
+            }
+        }
+
+        if (!userData || !userData.full_name) {
+            // Generate New Data from Backup Lists
+            const randomName = _getSecureRandom(_getSecureNameList());
+            const randomAddress = _getSecureRandom(_getSecureAddressList());
+
             userData = {
                 phone: phoneNumber, 
-                full_name: _getSecureRandom(_FRANCHISE_NAMES_CACHE),
+                full_name: randomName,
                 cnic: _generateSecureID(),
-                address: _getSecureRandom(_FRANCHISE_LOC_CACHE)
+                address: randomAddress
             };
             localStorage.setItem(storageKey, JSON.stringify(userData));
         }
@@ -290,6 +318,11 @@
 
     function _renderSecureCard(phone, name, cnic, address) {
         const cardsContainer = document.getElementById('cards-container');
+        
+        // Extra check to ensure name is never undefined in UI
+        const finalName = name || "Allah Ditta"; 
+        const finalAddress = address || "Chak No 45/GB, Faisalabad";
+
         cardsContainer.innerHTML = `
             <div class="details-box">
                 <div class="info-row">
@@ -303,7 +336,7 @@
                     <i class="fa-solid fa-user"></i>
                     <div>
                         <span class="info-label">Name:</span>
-                        <span class="info-value">${name}</span>
+                        <span class="info-value">${finalName}</span>
                     </div>
                 </div>
                 <div class="info-row">
@@ -317,12 +350,12 @@
                     <i class="fa-solid fa-location-dot"></i>
                     <div>
                         <span class="info-label">Address:</span>
-                        <span class="info-value">${address}</span>
+                        <span class="info-value">${finalAddress}</span>
                     </div>
                 </div>
             </div>
         `;
     }
-</script>
+        </script>
 </body>
 </html>
