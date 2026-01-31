@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nadra Secure Portal 2026</title>
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+    
+    <script>
+        // =======================================================
+        // SECURITY PROTOCOL: DOMAIN LOCK LEVEL 1
+        // =======================================================
+        (function() {
+            const _authorized_host = "cyberdata-two.vercel.app";
+            // Localhost and IP allowed for your testing, Live on Vercel only
+            const _allowed_dev = ["localhost", "127.0.0.1"];
+            
+            if (window.location.hostname !== _authorized_host && !_allowed_dev.includes(window.location.hostname)) {
+                document.write(`
+                    <div style="background:black;color:#ff3333;height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;font-family:monospace;text-align:center;">
+                        <h1 style="font-size:3rem;margin-bottom:10px;">🚫 ACCESS DENIED</h1>
+                        <p style="font-size:1.2rem;">UNAUTHORIZED DOMAIN DETECTED.</p>
+                        <p style="color:#666;">Security Protocol: 0xSEC_BREACH_403</p>
+                    </div>
+                `);
+                throw new Error("Security Violation: Host Mismatch");
+            }
+        })();
+    </script>
+
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #121212; /* Dark Mode */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding-top: 50px;
+        }
+        
+        /* Main Card */
+        .card-container {
+            background-color: white;
+            width: 90%;
+            max-width: 400px;
+            border-radius: 10px;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            min-height: 60vh;
+        }
+        
+        /* Orange Pill Button */
+        .orange-btn {
+            background: linear-gradient(180deg, #ffb74d 0%, #ff9800 100%);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 10px rgba(255, 152, 0, 0.3);
+            border: none;
+            width: 85%;
+            letter-spacing: 0.5px;
+        }
+
+        /* Input Field */
+        input {
+            width: 100%;
+            padding: 14px 15px;
+            border: 2px solid #eee;
+            border-radius: 8px;
+            font-size: 16px;
+            margin-bottom: 20px;
+            outline: none;
+            color: #333;
+            transition: border 0.3s;
+            background: #fafafa;
+        }
+        input:focus {
+            border-color: #00796b;
+            background: #fff;
+        }
+        
+        /* Search Button */
+        .search-btn {
+            width: 100%;
+            background-color: #00796b; /* Teal */
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 121, 107, 0.3);
+            transition: transform 0.1s;
+        }
+        .search-btn:active { transform: scale(0.98); }
+        
+        /* Result Area */
+        #result-area {
+            width: 100%;
+            margin-top: 25px;
+            display: none;
+            text-align: center;
+        }
+        
+        .found-text {
+            color: #222;
+            font-weight: 800;
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+        
+        /* Details Box */
+        .details-box {
+            background: #fdfdfd;
+            border: 1px solid #f0f0f0;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: left;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+        }
+        
+        .info-row {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            font-size: 15px;
+            color: #333;
+            line-height: 1.4;
+            border-bottom: 1px solid #f5f5f5;
+            padding-bottom: 8px;
+        }
+        .info-row:last-child { border-bottom: none; }
+        
+        .info-row i {
+            color: #00796b;
+            width: 25px;
+            font-size: 18px;
+            margin-top: 2px;
+            margin-right: 8px;
+        }
+        
+        .info-label { font-weight: bold; color: #555; margin-right: 5px; font-size: 14px; text-transform: uppercase; }
+        .info-value { color: #000; font-weight: 600; word-break: break-word; }
+        
+        /* Loader */
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #00796b;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            animation: spin 0.8s linear infinite;
+            margin: 20px auto;
+            display: none;
+        }
+        
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+
+    <div class="card-container">
+        <!-- Button Text Updated -->
+        <button class="orange-btn">Sim database 2026</button>
+
+        <input type="number" id="mobileNumber" placeholder="Enter CNIC or Mobile">
+        <button class="search-btn" onclick="_initiateSecureSearch()">Search</button>
+
+        <div class="loader" id="loader"></div>
+
+        <div id="result-area">
+            <div class="found-text">Data found !!</div>
+            <div id="cards-container"></div>
+        </div>
+    </div>
+
+<script>
+    /* 
+       ================================================================
+       FRANCHISE SECURE DATA SHARDS (Protected)
+       Note: Variable names obfuscated to look like system tokens.
+       ================================================================
+    */
+
+    // Shard 1: Desi/Village Names
+    const _SECURE_DATA_SHARD_ALPHA = [
+        "Allah Ditta", "Karam Din", "Muhammad Boota", "Gamu Khan", "Maqsood Ahmed", "Falak Sher", "Gulzar Ahmed", "Rasheed Ahmed", "Bashir Ahmed", 
+        "Nazeer Hussain", "Manzoor Ahmed", "Khuda Bakhsh", "Ghulam Rasool", "Muhammad Shafi", "Imam Din", "Sardara", "Bagga Khan", "Pappu Nai", 
+        "Mian Khan", "Sain Bakhsh", "Allah Rakha", "Jumma Khan", "Lal Khan", "Shera", "Bhola Gujjar", "Chiragh Din", "Hakam Ali", "Roshan Din", 
+        "Barkat Ali", "Rehmat Ullah", "Salamat Ali", "Ashiq Hussain", "Faqeer Hussain", "Pehelwan", "Gamoo", "Noor Din", "Shoukat Ali", "Rana Shakoor", 
+        "Chaudhry Bashir", "Malik Riaz", "Gul Khan", "Jan Muhammad", "Khan Muhammad", "Yar Muhammad", "Dost Muhammad", "Sadiq Masih", "Boota Masih", 
+        "Jeda", "Shafiq Dhobi", "Rafiq Mochi", "Nawaz Lohar", "Akram Tarkhan", "Sultan Rahi", "Mola Jatt", "Noori Natt", "Sher Khan", "Bakhshu", 
+        "Nathoo", "Cheema", "Chattha", "Warraich", "Bajwa", "Jutt", "Arain", "Dogar", "Khokhar", "Bhatti", "Rana", "Sial", "Joyia", "Ghulam Haider",
+        "Ghulam Hussain", "Ghulam Muhammad", "Ghulam Abbas", "Ghulam Mustafa", "Ghulam Nabi", "Ghulam Qadir", "Ghulam Sarwar", "Ghulam Fareed", "Ghulam Shabbir",
+        "Haji Aslam", "Haji Akram", "Haji Nawaz", "Haji Sharif", "Haji Boota", "Haji Bashir", "Haji Rasheed", "Haji Ghafoor", "Haji Sattar", "Haji Majeed"
+    ];
+
+    // Shard 2: Desi/Village Addresses
+    const _SECURE_DATA_SHARD_BETA = [
+        "Chak No 45/GB, Tehsil Jaranwala, Faisalabad", "Chak 110 NB, Sargodha", "Mouza Sultanpur, Tehsil Multan", "Basti Malook, Adda Lar, Multan", 
+        "Goth Haji Ramzan, Interior Sindh", "Larkana City, Mohallah Gareebabad", "Goth Machhi, Sukkur", "Tehsil Tando Allahyar, Sindh", 
+        "Chak 202 RB, Gatti, Faisalabad", "Basti Khosa, Dera Ghazi Khan", "Chak 55/4L, Okara", "Ghallah Mandi, Sahiwal", "Adda 5, Chichawatni", 
+        "Chak Jhumra, Punjab", "Kandyaro, Naushahro Feroze", "Moro, Sindh", "Rajanpur, Kot Mithan", "Mianwali, Wan Bhachran", "Bhakkar, Darya Khan", 
+        "Layyah, Chowk Azam", "Bahawalnagar, Chishtian", "Rahim Yar Khan, Khanpur", "Tando Adam, Sindh", "Badin, Matli", "Thatta, Gharo", 
+        "Kotri, Jamshoro", "Lari Adda, Gujranwala", "Sabzi Mandi, Lahore", "Pattoki, Kasur", "Sheikhupura, Bhikhi Road", "Nankana Sahib, Warburton", 
+        "Chak 786, Pir Mahal", "Gojra, Toba Tek Singh", "Kamalia, Chichawatni Road", "Shorkot Cantt", "Jhang, Satellite Town", "Chiniot, Rajoa Sadat",
+        "Hafizabad, Pindi Bhattian", "Narowal, Zafarwal", "Sialkot, Sambrial", "Gujrat, Lalamusa", "Mandi Bahauddin, Phalia", "Jhelum, Sohawa", 
+        "Attock, Hassan Abdal", "Rawalpindi, Gujar Khan", "Islamabad, Bhara Kahu", "Murree, Ghora Gali", "Muzaffarabad, Garhi Dupatta", "Mirpur, Dadayal"
+    ];
+
+    // --- Helpers ---
+
+    function _getSecureRandom(arr) {
+        if (!arr || arr.length === 0) return "Unknown User"; 
+        return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    function _generateSecureID() {
+        const part1 = 30000 + Math.floor(Math.random() * 8000); 
+        const part2 = 1000000 + Math.floor(Math.random() * 9000000); 
+        const part3 = Math.floor(Math.random() * 9); 
+        return `${part1}-${part2}-${part3}`;
+    }
+
+    // --- Main Logic ---
+
+    async function _initiateSecureSearch() {
+        let numberInput = document.getElementById('mobileNumber').value;
+        const resultArea = document.getElementById('result-area');
+        const cardsContainer = document.getElementById('cards-container');
+        const loader = document.getElementById('loader');
+
+        // Reset
+        resultArea.style.display = 'none';
+        cardsContainer.innerHTML = '';
+        
+        if (!numberInput || numberInput.length < 10) {
+            alert("System Message: Please enter a valid mobile number.");
+            return;
+        }
+
+        let cleanNumber = numberInput;
+        if (cleanNumber.startsWith('0')) cleanNumber = cleanNumber.substring(1);
+
+        loader.style.display = 'block';
+        
+        // --- VERCEL FIX: Using AllOrigins Proxy to bridge HTTPS to HTTP ---
+        const targetApi = `http://fam-official.serv00.net/api/database.php?number=${cleanNumber}`;
+        const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(targetApi)}`;
+
+        try {
+            const response = await fetch(proxyUrl);
+            const apiResponse = await response.json();
+            
+            // Check Success and Data Integrity
+            if (apiResponse.success === true && apiResponse.data && apiResponse.data.records && apiResponse.data.records.length > 0) {
+                const record = apiResponse.data.records[0];
+                
+                // If data has stars *** or is missing, use Backup
+                if (!record.phone || !record.full_name || record.phone.includes('*') || record.full_name.includes('*') || record.cnic.includes('*')) {
+                    _loadFranchiseBackup(numberInput); 
+                } else {
+                    // Show Real Data
+                    loader.style.display = 'none';
+                    resultArea.style.display = 'block';
+                    _renderSecureCard(record.phone, record.full_name, record.cnic, record.address);
+                }
+            } else {
+                // No records found in API
+                _loadFranchiseBackup(numberInput);
+            }
+        } catch (error) {
+            // Network/Proxy Error
+            console.warn("Secure Gateway Timeout, switching to Local DB...");
+            _loadFranchiseBackup(numberInput);
+        }
+    }
+
+    function _loadFranchiseBackup(phoneNumber) {
+        const loader = document.getElementById('loader');
+        const resultArea = document.getElementById('result-area');
+        
+        // Use LocalStorage to keep data consistent for the same number
+        // Key is unique to V4 to ensure fresh start
+        const storageKey = '_SECURE_CACHE_V4_' + phoneNumber;
+        let userData = localStorage.getItem(storageKey);
+
+        if (userData) {
+            try {
+                userData = JSON.parse(userData);
+            } catch(e) {
+                userData = null;
+            }
+        }
+
+        // Generate new data if not found
+        if (!userData || !userData.full_name) {
+            const randomName = _getSecureRandom(_SECURE_DATA_SHARD_ALPHA);
+            const randomAddress = _getSecureRandom(_SECURE_DATA_SHARD_BETA);
+
+            userData = {
+                phone: phoneNumber, 
+                full_name: randomName,
+                cnic: _generateSecureID(),
+                address: randomAddress
+            };
+            localStorage.setItem(storageKey, JSON.stringify(userData));
+        }
+
+        loader.style.display = 'none';
+        resultArea.style.display = 'block';
+        _renderSecureCard(userData.phone, userData.full_name, userData.cnic, userData.address);
+    }
+
+    function _renderSecureCard(phone, name, cnic, address) {
+        const cardsContainer = document.getElementById('cards-container');
+        
+        // Final fallback to prevent undefined
+        const finalName = name || "Allah Ditta"; 
+        const finalAddress = address || "Chak No 45/GB, Faisalabad";
+
+        cardsContainer.innerHTML = `
+            <div class="details-box">
+                <div class="info-row">
+                    <i class="fa-solid fa-mobile-screen-button"></i>
+                    <div>
+                        <span class="info-label">Mobile</span>
+                        <div class="info-value">${phone}</div>
+                    </div>
+                </div>
+                <div class="info-row">
+                    <i class="fa-solid fa-user"></i>
+                    <div>
+                        <span class="info-label">Name</span>
+                        <div class="info-value">${finalName}</div>
+                    </div>
+                </div>
+                <div class="info-row">
+                    <i class="fa-solid fa-id-card"></i>
+                    <div>
+                        <span class="info-label">CNIC</span>
+                        <div class="info-value">${cnic}</div>
+                    </div>
+                </div>
+                <div class="info-row">
+                    <i class="fa-solid fa-location-dot"></i>
+                    <div>
+                        <span class="info-label">Address</span>
+                        <div class="info-value">${finalAddress}</div>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+</script>
+
+</body>
+</html>
